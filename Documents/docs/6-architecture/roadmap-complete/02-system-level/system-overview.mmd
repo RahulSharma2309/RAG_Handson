@@ -1,0 +1,99 @@
+flowchart TB
+    %% Roadmap-complete: whole system view (clients -> edge -> platform -> data + ops)
+
+    subgraph Clients
+        USER[Customer\n(Web/PWA)]
+        ADMIN[Admin\n(Web)]
+    end
+
+    subgraph Internet[Internet / Edge]
+        DNS[DNS]
+        WAF[WAF / DDoS Protection]
+        CDN[CDN\n(static assets + images)]
+        INGRESS[Ingress Controller\n(TLS, routing)]
+    end
+
+    subgraph Platform[Kubernetes Cluster]
+        subgraph App[Application Layer]
+            GW[API Gateway\n(YARP)]
+            AUTH[Auth]
+            USER_SVC[User]
+            PRODUCT[Product]
+            ORDER[Order]
+            PAYMENT[Payment]
+            NOTIF[Notification]
+            SEARCH_API[Search API]
+            RECO[Recommendation]
+        end
+
+        subgraph Infra[Shared Platform Components]
+            REDIS[(Redis Cache)]
+            MQ[(Message Broker)]
+            OTEL[OpenTelemetry Collector]
+        end
+    end
+
+    subgraph Data[Data Stores]
+        AUTHDB[(authdb - SQL)]
+        USERDB[(userdb - SQL)]
+        PRODUCTDB[(productdb - SQL)]
+        ORDERDB[(orderdb - SQL)]
+        PAYMENTDB[(paymentdb - SQL)]
+        ES[(Elasticsearch)]
+        OBJ[(Object Storage\n(product images/media))]
+    end
+
+    subgraph External[External Providers]
+        PAYPROV[Payment Provider(s)\n(Mock CC/UPI in roadmap)]
+        EMAIL[Email Provider\n(SendGrid/SMTP)]
+    end
+
+    USER --> DNS --> WAF --> INGRESS
+    ADMIN --> DNS --> WAF --> INGRESS
+    USER --> CDN
+    ADMIN --> CDN
+
+    INGRESS --> GW
+
+    GW --> AUTH
+    GW --> USER_SVC
+    GW --> PRODUCT
+    GW --> ORDER
+    GW --> PAYMENT
+    GW --> SEARCH_API
+
+    ORDER --> MQ
+    PRODUCT --> MQ
+    PAYMENT --> MQ
+    MQ --> NOTIF
+    MQ --> SEARCH_API
+    MQ --> RECO
+
+    AUTH --> AUTHDB
+    USER_SVC --> USERDB
+    PRODUCT --> PRODUCTDB
+    ORDER --> ORDERDB
+    PAYMENT --> PAYMENTDB
+
+    PRODUCT --> OBJ
+    SEARCH_API --> ES
+    PRODUCT -->|index updates via events| ES
+
+    GW --> REDIS
+    PRODUCT --> REDIS
+    USER_SVC --> REDIS
+
+    PAYMENT --> PAYPROV
+    NOTIF --> EMAIL
+
+    %% Observability (high-level)
+    GW --> OTEL
+    AUTH --> OTEL
+    USER_SVC --> OTEL
+    PRODUCT --> OTEL
+    ORDER --> OTEL
+    PAYMENT --> OTEL
+    NOTIF --> OTEL
+    SEARCH_API --> OTEL
+    RECO --> OTEL
+

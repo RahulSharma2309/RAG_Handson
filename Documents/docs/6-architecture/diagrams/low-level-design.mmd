@@ -1,0 +1,39 @@
+flowchart LR
+    subgraph API[Auth Product Order Payment User Service]
+        direction TB
+
+        subgraph Controllers
+            C1[Controllers Orders Products Auth]
+        end
+
+        subgraph ServicesLayer[Services]
+            S1[IOrderService And OrderService]
+            S2[IProductService And ProductService]
+            S3[IAuthService And AuthService]
+        end
+
+        subgraph Repos[Repositories]
+            R1[IOrderRepository And OrderRepository]
+            R2[IProductRepository And ProductRepository]
+            R3[IWalletRepository And WalletRepository]
+        end
+
+        subgraph Data[Data And EF Core]
+            DBC[DbContext OrderDbContext ProductDbContext AuthDbContext]
+            ENT[Entities Order OrderItem Product Wallet User]
+        end
+    end
+
+    C1 --> S1
+    C1 --> S2
+    C1 --> S3
+
+    S1 --> R1
+    S2 --> R2
+    S3 --> R3
+
+    R1 --> DBC
+    R2 --> DBC
+    R3 --> DBC
+
+    DBC --> ENT

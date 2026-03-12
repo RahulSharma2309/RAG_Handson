@@ -1,0 +1,57 @@
+flowchart LR
+    %% Roadmap-complete: service-level interactions (sync + async)
+
+    subgraph Clients
+        WEB[Web App\nReact SPA/PWA]
+        ADMIN[Admin Portal\n(React)]
+    end
+
+    subgraph Edge[Edge + Routing]
+        CDN[CDN\n(static assets, images)]
+        INGRESS[Ingress / API Edge\n(TLS, routing, rate limiting)]
+        GATEWAY[API Gateway\n(YARP)]
+    end
+
+    subgraph Services[Microservices (.NET)]
+        AUTH[Auth Service\n(JWT, refresh)]
+        USER[User Service\n(profile, addresses)]
+        PRODUCT[Product Service\n(catalog, variants, pricing, inventory)]
+        ORDER[Order Service\n(order lifecycle, saga orchestration)]
+        PAYMENT[Payment Service\n(wallet + adapters)]
+        NOTIF[Notification Service\n(email + in-app)]
+        RECO[Recommendation Service\n(behavior-based)]
+        SEARCH[Search Service\n(query APIs)]
+    end
+
+    subgraph Async[Async Messaging]
+        BUS[(Message Broker\n(RabbitMQ / Service Bus))]
+    end
+
+    WEB --> CDN
+    ADMIN --> CDN
+
+    WEB -->|HTTPS| INGRESS --> GATEWAY
+    ADMIN -->|HTTPS| INGRESS --> GATEWAY
+
+    GATEWAY --> AUTH
+    GATEWAY --> USER
+    GATEWAY --> PRODUCT
+    GATEWAY --> ORDER
+    GATEWAY --> PAYMENT
+    GATEWAY --> SEARCH
+
+    %% Typical sync service-to-service calls (future maturity)
+    ORDER -->|reserve stock| PRODUCT
+    ORDER -->|charge / refund| PAYMENT
+    PAYMENT -->|validate user| USER
+    PRODUCT -->|read identity/roles| AUTH
+
+    %% Async eventing (roadmap items)
+    ORDER -->|publish OrderCreated/StatusChanged| BUS
+    PRODUCT -->|publish ProductUpdated/StockLow| BUS
+    PAYMENT -->|publish PaymentSucceeded/Failed| BUS
+
+    BUS --> NOTIF
+    BUS --> SEARCH
+    BUS --> RECO
+

@@ -1,0 +1,55 @@
+flowchart LR
+    %% Roadmap-complete: data stores per service + shared infra stores
+
+    subgraph Services[Microservices]
+        AUTH[Auth]
+        USER[User]
+        PRODUCT[Product]
+        ORDER[Order]
+        PAYMENT[Payment]
+        NOTIF[Notification]
+        SEARCH[Search API]
+        RECO[Recommendation]
+    end
+
+    subgraph SQL[Relational Data (SQL)]
+        AUTHDB[(authdb)]
+        USERDB[(userdb)]
+        PRODUCTDB[(productdb)]
+        ORDERDB[(orderdb)]
+        PAYMENTDB[(paymentdb)]
+        NOTIFDB[(notificationdb\n(optional))]
+    end
+
+    subgraph Shared[Shared Data/Infra Stores]
+        REDIS[(Redis\n(cache + sessions))]
+        ES[(Elasticsearch\n(product search index))]
+        OBJ[(Object Storage\n(product images/media))]
+        MQ[(Message Broker\n(events/queues))]
+        VAULT[(Secrets Vault\n(or Key Vault))]
+    end
+
+    AUTH --> AUTHDB
+    USER --> USERDB
+    PRODUCT --> PRODUCTDB
+    ORDER --> ORDERDB
+    PAYMENT --> PAYMENTDB
+    NOTIF --> NOTIFDB
+
+    PRODUCT --> OBJ
+    SEARCH --> ES
+    PRODUCT -->|publish index updates| MQ --> SEARCH
+
+    PRODUCT --> REDIS
+    USER --> REDIS
+    SEARCH --> REDIS
+
+    AUTH --> VAULT
+    USER --> VAULT
+    PRODUCT --> VAULT
+    ORDER --> VAULT
+    PAYMENT --> VAULT
+    NOTIF --> VAULT
+    SEARCH --> VAULT
+    RECO --> VAULT
+

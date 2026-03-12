@@ -1,0 +1,38 @@
+flowchart LR
+    subgraph Client
+        BROWSER[React SPA Frontend]
+    end
+
+    subgraph Infra[Docker And Dev Environment]
+        GATEWAY[YARP API Gateway ASP.NET Core Reverse Proxy]
+
+        subgraph Services[Backend Microservices Net 8]
+            AUTH[Auth Service JWT Issuance]
+            USER[User Service Profile]
+            PRODUCT[Product Service Catalog And Inventory]
+            ORDER[Order Service Order Orchestration]
+            PAYMENT[Payment Service Wallet And Charges]
+        end
+
+        subgraph Data[SQL Server Container]
+            DBA[(authdb)]
+            DBP[(productdb)]
+            DBO[(orderdb)]
+            DBW[(paymentdb)]
+            DBU[(userdb)]
+        end
+    end
+
+    BROWSER -->|HTTP JSON APIs| GATEWAY
+
+    GATEWAY --> AUTH
+    GATEWAY --> USER
+    GATEWAY --> PRODUCT
+    GATEWAY --> ORDER
+    GATEWAY --> PAYMENT
+
+    AUTH --> DBA
+    USER --> DBU
+    PRODUCT --> DBP
+    ORDER --> DBO
+    PAYMENT --> DBW

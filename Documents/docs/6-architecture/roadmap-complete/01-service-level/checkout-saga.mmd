@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant FE as React SPA/PWA
+    participant GW as API Gateway (YARP)
+    participant OR as Order Service (Saga)
+    participant PR as Product Service
+    participant PY as Payment Service
+    participant BUS as Message Broker
+    participant NO as Notification Service
+    participant ODB as orderdb
+    participant PDB as productdb
+    participant WDB as paymentdb
+
+    U->>FE: Place order
+    FE->>GW: POST /api/checkout (JWT)
+    GW->>OR: Forward request
+
+    OR->>OR: Validate request + idempotency key
+    OR->>PR: Reserve inventory (variant-aware)
+    PR->>PDB: Update reservation/stock
+    PDB-->>PR: OK
+    PR-->>OR: Reserved
+
+    OR->>PY: Authorize/Charge (wallet or external adapter)
+    PY->>WDB: Persist payment attempt
+    WDB-->>PY: OK
+    PY-->>OR: PaymentSucceeded
+
+    OR->>ODB: Create order + initial state
+    ODB-->>OR: OK
+
+    OR->>BUS: Publish OrderCreated
+    BUS-->>NO: Deliver OrderCreated
+    NO-->>U: Email / In-app notification
+
+    OR-->>GW: 201 Created (orderId)
+    GW-->>FE: 201 Created (orderId)
+    FE-->>U: Show confirmation
+
+    Note over OR,PR: If payment fails, saga compensates:\nRelease inventory reservation
+    Note over OR,PY: If inventory reservation fails, saga stops before payment
+

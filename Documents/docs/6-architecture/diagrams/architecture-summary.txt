@@ -1,0 +1,248 @@
+FreshHarvest Market — Architecture Summary
+
+Purpose
+- MVP e-commerce system: React frontend + YARP API Gateway + ASP.NET Core microservices + SQL Server.
+- Services: Auth, User, Product (catalog + inventory), Order (orchestration), Payment (wallet).
+- Runs locally via `dotnet run` for services and `docker compose` for DB + containers. Each service has its own project and DB context.
+
+High-level architecture (bullet points)
+- Frontend (React)
+  - SPA served in `frontend/` (App.js) connecting to the API gateway.
+  - Calls: login, register, product list, add to cart, checkout/order.
+- API Gateway (YARP)
+  - Single entrypoint for HTTP traffic. Routes requests to backend microservices.
+  - Exposes a health endpoint used by smoke tests.
+- Microservices
+  - Auth Service: registration and JWT issuance.
+  - User Service: user profile operations.
+  - Product Service: product CRUD, seed data, inventory reservation endpoints.
+  - Order Service: orchestrates order creation across services (reserve product, charge payment, persist order).
+  - Payment Service: wallets and charges.
+- Data stores
+  - SQL Server (development: single container) used by all services; each service uses its own database/schema via separate connection strings.
+  - EF Core used for DbContexts and migrations (current setup uses EnsureCreated for dev; recommend migrations for production).
+- Dev infra
+  - `infra/docker-compose.yml` defines SQL Server and environment variables for services (ASPNETCORE_ENVIRONMENT=Development and TrustServerCertificate=True in dev).
+  - `entrypoint.sh`/wait-for helper scripts used in container startup to wait for DB availability.
+
+Low-level architecture (bullet points)
+- Project structure (per service)
+  - Controllers/ — API controllers
+  - Models/ — domain models (Product.cs, Order.cs, etc.)
+  - Dtos/ — input/output DTOs for endpoints
+  - Data/ — EF Core DbContext (AppDbContext, OrderDbContext, etc.)
+  - Repositories/ — data access layer, encapsulates transactions and queries
+  - Services/ — business logic layer, validation logic, orchestration of repositories/clients
+  - Startup.cs / Program.cs: DI registration, middleware, Swagger registration
+- Dependency injection
+  - Repositories and business services registered in DI container; controllers receive service abstractions (IProductService, IProductRepository).
+- HTTP client usage
+  - Order service uses typed HttpClient to call Product and Payment services through the gateway or directly in Docker network when running as containers.
+- Concurrency and transactions
+  - Local DB transactions used inside each service. Cross-service transactions are handled with compensating operations (release reservation) or eventual consistency patterns (outbox/eventual updates) — recommended improvement: implement a distributed sagas / outbox pattern.
+- Security
+  - Auth service issues JWT tokens. Services validate JWT using JwtBearer middleware.
+  - Password hashing via BCrypt (Auth service).
+  - For dev: connection strings use TrustServerCertificate=True for SQL Server container; in production use secure certificates and secret stores.
+
+Key data model sketches
+- Product: Id (GUID), Name, Description, PriceCents (int), Stock (int)
+- Order: Id (GUID), UserId (GUID), Items (OrderItems table), TotalCents (int), Status (string)
+- Wallet: UserId (GUID), BalanceCents (int)
+- User: Id, Email, PasswordHash, FullName
+
+Primary flows (summaries)
+- Registration & Login
+  - POST /api/auth/register -> Auth persists user and returns success
+  - POST /api/auth/login -> Auth validates credentials and returns JWT
+- Product lifecycle
+  - GET /api/products -> lists products
+  - POST /api/products -> create product (validated DTOs)
+  - POST /api/products/{id}/reserve -> transactional decrement of stock
+- Order creation (happy path)
+  - Client -> POST /api/orders/create (Bearer JWT)
+  - Order service -> Product service /reserve
+  - Order service -> Payment service /charge
+  - Order service -> persist Order in its DB
+  - Return 201 with order id
+- Failure handling
+  - If payment fails after a successful reservation, Order service triggers compensation to release reserved stock.
+
+Files and artifacts added (where to find diagrams/docs)
+- docs/architecture.md — high-level Mermaid and notes
+- docs/architecture-system.mmd — system diagram (Mermaid source)
+- docs/architecture-sequence.mmd — sequence diagram (Mermaid source)
+- docs/low-level-design.mmd — low-level Mermaid source
+- docs/low-level-design.md — low-level design notes
+- docs/architecture-summary.txt — (this file)
+- docs/render-diagrams.ps1 — PowerShell script to render `.mmd` files to `.svg` and `.png` using `@mermaid-js/mermaid-cli`
+- .github/workflows/render-mermaid.yml — CI workflow to render diagrams automatically on push
+
+How to render locally (quick steps)
+1) Install Node.js (LTS), npm available
+   - Winget: `winget install --id OpenJS.NodeJS.18 -e`
+2) Install mermaid-cli globally
+   - `npm install -g @mermaid-js/mermaid-cli`
+3) Run the render script from repo root
+   - `cd C:\Users\rahul\source\repos\FreshHarvest Market`
+   - `.\docs\render-diagrams.ps1`
+4) Open generated files in `docs/` (SVG/PNG) with default image viewer or browser
+   - `Start-Process docs\architecture-system.png`
+
+How to convert to Word (DOCX)
+- Install pandoc (winget or download)
+- Render diagrams first, then run:
+  - `pandoc docs/architecture.md -o docs/architecture.docx`
+  - `pandoc docs/low-level-design.md -o docs/low-level-design.docx`
+
+Recommended next steps (short list)
+- Replace EnsureCreated() with EF Migrations and check-in generated migrations for schema evolution
+- Remove secrets from committed compose files: introduce `.env` and `.env.example`, and add `.env` to `.gitignore`
+- Add tests: unit tests for services and integration tests for key flows (order creation)
+- Add CI checks to build and run smoke tests across services (already partially scaffolded)
+- Implement outbox or saga patterns for reliable cross-service transactions in production
+
+Contact & contribution
+- See `CONTRIBUTING.md` for how to run locally, create PRs, and code style guidance.
+
+---
+You can copy this file content into Word or use Pandoc to convert it. If you want, I can also produce a `.docx` version here and add it to `docs/` (tell me to create DOCX and I will add it).
+
+---------------------------
+Additional details (technology inventory, CI, smoke tests, manifest)
+---------------------------
+
+Technology inventory (concise)
+- Languages: C# (net8.0), JavaScript (Node 18+/React)
+- Backend frameworks & libraries:
+  - ASP.NET Core Web API (net8.0)
+  - EF Core (Microsoft.EntityFrameworkCore.SqlServer)
+  - Microsoft.IdentityModel.Tokens / JwtBearer
+  - Swashbuckle.AspNetCore (Swagger)
+  - Microsoft.ReverseProxy (YARP)
+  - BCrypt.Net-Next
+- Frontend libraries: React, axios
+- CLI/tools: dotnet CLI, npm, mermaid-cli, pandoc
+
+Container images & runtime
+- mcr.microsoft.com/dotnet/sdk:8.0 (build)
+- mcr.microsoft.com/dotnet/aspnet:8.0 (runtime)
+- mcr.microsoft.com/mssql/server:2019-latest (SQL Server)
+
+Ports & hosts (defaults used in repo)
+- Frontend: 3000 (dev)
+- Gateway: 5000 (host), 80 (container)
+- Auth: 5001, Product: 5002, Payment: 5003, Order: 5004, User: 5005
+- SQL Server: 1433
+
+Databases (named in compose/appsettings)
+- authdb, productdb, orderdb, paymentdb, userdb
+
+Important env variables
+- ASPNETCORE_ENVIRONMENT=Development (dev)
+- ConnectionStrings__DefaultConnection (per-service)
+- SA_PASSWORD (do NOT commit; use env or CI secrets)
+
+CI and smoke-test summary
+- CI platform: GitHub Actions. Workflows live in `.github/workflows/`.
+- Render diagrams workflow: `.github/workflows/render-mermaid.yml` (renders .mmd to svg/png).
+- Recommended CI flow for build + smoke tests:
+  1) Build projects (`dotnet restore` + `dotnet build`)
+  2) Build Docker images if using compose
+  3) Start infra with `docker compose up --build -d`
+  4) Wait for `/api/health` on gateway (use wait-for.sh)
+  5) Run `infra/smoke-test.sh` which:
+     - registers a user, logs in, creates wallet, lists products, creates order
+     - requires jq (optional) or uses sed fallback
+  6) Tear down stack and collect logs/artifacts
+
+Smoke test criteria (from `infra/smoke-test.sh`)
+- Gateway health endpoint responds
+- Register returns success
+- Login returns a JWT token (and userId if present)
+- Wallet creation endpoint returns success
+- Product list returns at least one product with stock > 0
+- Order creation returns success (201) and order id
+
+Manifest (AI/automation-friendly)
+---
+project: FreshHarvest Market
+owner: RahulSharma2309
+description: MVP e-commerce microservices (React frontend, API gateway, ASP.NET Core microservices, SQL Server)
+languages:
+  - C#: net8.0
+  - JavaScript: Node 18+, React
+libraries:
+  backend:
+    - ASP.NET Core Web API
+    - EF Core (SqlServer)
+    - JwtBearer
+    - Swashbuckle.AspNetCore
+    - Microsoft.ReverseProxy (YARP)
+  frontend:
+    - React
+    - axios
+infrastructure:
+  containers:
+    - mcr.microsoft.com/dotnet/sdk:8.0
+    - mcr.microsoft.com/dotnet/aspnet:8.0
+    - mcr.microsoft.com/mssql/server:2019-latest
+  orchestration: docker-compose
+  helper-scripts:
+    - infra/wait-for.sh
+    - infra/smoke-test.sh
+endpoints:
+  health: /api/health
+  auth:
+    register: POST /api/auth/register
+    login: POST /api/auth/login
+  products:
+    list: GET /api/products
+    create: POST /api/products
+    reserve: POST /api/products/{id}/reserve
+  orders:
+    create: POST /api/orders/create
+  payments:
+    wallet: POST /api/payments/wallet
+databases:
+  - authdb
+  - productdb
+  - orderdb
+  - paymentdb
+  - userdb
+env:
+  - ASPNETCORE_ENVIRONMENT: Development
+  - ConnectionStrings__DefaultConnection: Server=mssql,1433;Database=<db>;User Id=sa;Password=<SA_PASSWORD>;TrustServerCertificate=True;
+  - SA_PASSWORD: (store in secrets, do not commit)
+ports:
+  gateway: 5000
+  frontend: 3000
+  services: [5001,5002,5003,5004,5005]
+ci:
+  provider: GitHub Actions
+  workflows:
+    - path: .github/workflows/render-mermaid.yml
+      purpose: render mermaid diagrams to svg/png
+  smoke-test:
+    script: infra/smoke-test.sh
+    checks:
+      - gateway health
+      - register/login -> token
+      - create wallet
+      - fetch products and select stock>0
+      - create order (auth header)
+    success_criteria:
+      - JWT token present
+      - order creation returns success (201)
+recommendations:
+  - Use EF Core Migrations instead of EnsureCreated for schema management
+  - Move secrets to .env (local) and GitHub Secrets (CI)
+  - Add unit & integration tests; run dotnet test in CI
+  - Implement outbox or saga pattern for cross-service consistency
+artifacts:
+  - build logs
+  - smoke-test output
+  - rendered diagrams: docs/*.svg, docs/*.png
+
+---------------------------
+If you'd like, I can also create `docs/project-manifest.yml` containing the YAML above, or produce a `.docx` export of this file and add it to `docs/`. Tell me which and I'll do it next.

@@ -1,0 +1,80 @@
+flowchart TB
+    %% Roadmap-complete: Kubernetes deployment view (conceptual)
+
+    subgraph GitHub[GitHub]
+        REPO[Repository]
+        GHCR[GHCR\n(Container Registry)]
+        GHA[GitHub Actions]
+    end
+
+    subgraph Cluster[Kubernetes Cluster]
+        subgraph NS_STG[Namespace: staging]
+            ING_STG[Ingress]
+            GW_STG[Gateway]
+            SVC_STG[Services\n(auth,user,product,order,payment,...)]
+            HPA_STG[HPA]
+        end
+
+        subgraph NS_PROD[Namespace: prod]
+            ING_PROD[Ingress]
+            GW_PROD[Gateway]
+            SVC_PROD[Services\n(auth,user,product,order,payment,...)]
+            HPA_PROD[HPA]
+        end
+
+        subgraph NS_OPS[Namespace: ops]
+            PROM[Prometheus]
+            GRAF[Grafana]
+            LOKI[Loki]
+            JAEGER[Jaeger]
+            OTELC[OpenTelemetry Collector]
+            VAULT[Vault / Key Vault Agent]
+        end
+
+        subgraph NS_DATA[Namespace: data]
+            SQL[(SQL Server / Managed SQL)]
+            REDIS[(Redis)]
+            ES[(Elasticsearch)]
+        end
+    end
+
+    REPO --> GHA --> GHCR
+    GHCR -->|image pull| GW_STG
+    GHCR -->|image pull| SVC_STG
+    GHCR -->|image pull| GW_PROD
+    GHCR -->|image pull| SVC_PROD
+
+    ING_STG --> GW_STG --> SVC_STG
+    ING_PROD --> GW_PROD --> SVC_PROD
+
+    SVC_STG --> SQL
+    SVC_STG --> REDIS
+    SVC_STG --> ES
+
+    SVC_PROD --> SQL
+    SVC_PROD --> REDIS
+    SVC_PROD --> ES
+
+    %% Observability wiring (high-level)
+    GW_STG --> OTELC
+    SVC_STG --> OTELC
+    GW_PROD --> OTELC
+    SVC_PROD --> OTELC
+
+    OTELC --> PROM
+    OTELC --> LOKI
+    OTELC --> JAEGER
+    GRAF --> PROM
+    GRAF --> LOKI
+    GRAF --> JAEGER
+
+    %% Secrets
+    VAULT --> GW_STG
+    VAULT --> SVC_STG
+    VAULT --> GW_PROD
+    VAULT --> SVC_PROD
+
+    %% Scaling
+    HPA_STG --> SVC_STG
+    HPA_PROD --> SVC_PROD
+

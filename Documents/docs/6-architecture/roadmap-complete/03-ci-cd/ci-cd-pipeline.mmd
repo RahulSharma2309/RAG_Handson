@@ -1,0 +1,33 @@
+flowchart LR
+    %% Roadmap-complete: CI/CD view (conceptual)
+
+    DEV[Developer\nfeature branch/PR] --> PR[Pull Request]
+
+    subgraph CI[CI: GitHub Actions]
+        LINT[Lint / Format]
+        TEST[Unit + Integration Tests]
+        SONAR[SonarCloud Quality Gate]
+        BUILD[Build (.NET + Frontend)]
+        DOCKER[Docker Build]
+        PUSH[Push Images to GHCR]
+    end
+
+    PR --> LINT --> TEST --> BUILD --> SONAR --> DOCKER --> PUSH
+
+    subgraph CD[CD: Staging/Prod Deploy]
+        HELM[Helm / Manifests]
+        DEPLOY_STG[Deploy to Staging\n(K8s namespace)]
+        SMOKE[Smoke tests\n(post-deploy)]
+        APPROVE[Manual approval\n(optional)]
+        DEPLOY_PROD[Deploy to Prod\n(K8s namespace)]
+        ROLLBACK[Rollback\n(on failure)]
+    end
+
+    PUSH --> DEPLOY_STG --> SMOKE
+    SMOKE -->|pass| APPROVE --> DEPLOY_PROD
+    SMOKE -->|fail| ROLLBACK
+
+    %% GitOps (optional roadmap item)
+    GITOPS[Argo CD\n(GitOps - optional)] -.-> DEPLOY_STG
+    GITOPS -.-> DEPLOY_PROD
+

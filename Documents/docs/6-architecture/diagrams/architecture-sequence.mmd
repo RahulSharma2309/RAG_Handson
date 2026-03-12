@@ -1,0 +1,34 @@
+%% File: docs/architecture-sequence.mmd
+sequenceDiagram
+    autonumber
+    participant U as User (Browser)
+    participant FE as React SPA
+    participant GW as YARP Gateway
+    participant OR as Order Service
+    participant PR as Product Service
+    participant PY as Payment Service
+    participant ODB as orderdb
+    participant PDB as productdb
+    participant WDB as paymentdb
+
+    U->>FE: Click "Place Order"
+    FE->>GW: POST /api/orders/create\nAuthorization: Bearer <JWT>
+    GW->>OR: Forward /api/orders/create
+
+    OR->>OR: Validate JWT & request
+    OR->>PR: POST /api/products/{id}/reserve
+    PR->>PDB: Check & decrement stock
+    PDB-->>PR: OK
+    PR-->>OR: Reservation success
+
+    OR->>PY: POST /api/payments/charge
+    PY->>WDB: Deduct wallet balance
+    WDB-->>PY: OK
+    PY-->>OR: Charge success
+
+    OR->>ODB: Insert Order & OrderItems\n(Status = Completed)
+    ODB-->>OR: OK
+
+    OR-->>GW: 201 Created (orderId)
+    GW-->>FE: 201 Created (orderId)
+    FE-->>U: Show "Order placed" + orderId

@@ -1,0 +1,45 @@
+flowchart LR
+    %% Roadmap-complete: observability stack (conceptual)
+
+    subgraph Apps[Applications]
+        GW[Gateway]
+        SVC[Services\n(auth,user,product,order,payment,...)]
+        FE[Frontend\n(browser)]
+    end
+
+    subgraph Telemetry[Instrumentation]
+        OTELSDK[OpenTelemetry SDK\n(traces/metrics/logs)]
+        RUM[Frontend RUM\n(optional)]
+    end
+
+    subgraph Pipeline[Collection + Routing]
+        OTELCOL[OpenTelemetry Collector]
+    end
+
+    subgraph Backends[Storage/Backends]
+        PROM[Prometheus\n(metrics)]
+        LOKI[Loki\n(logs)]
+        JAEGER[Jaeger\n(traces)]
+    end
+
+    subgraph Visualize[Visualization + Alerting]
+        GRAF[Grafana]
+        ALERT[Alertmanager\n(optional)]
+    end
+
+    GW --> OTELSDK
+    SVC --> OTELSDK
+    FE --> RUM
+
+    OTELSDK --> OTELCOL
+    RUM --> OTELCOL
+
+    OTELCOL --> PROM
+    OTELCOL --> LOKI
+    OTELCOL --> JAEGER
+
+    PROM --> GRAF
+    LOKI --> GRAF
+    JAEGER --> GRAF
+    PROM --> ALERT
+

@@ -1,0 +1,103 @@
+graph TB
+    subgraph "OLD CI Pipeline (Sequential - 30-40 min)"
+        START1[Start]
+        DOTNET1[".NET Build & Test<br/>(ALL 6 services in series)<br/>⏱️ 10-15 min"]
+        FRONT1["Frontend Build<br/>⏱️ 2 min"]
+        DOCKER1["Docker Build & Push<br/>(ALL 7 images in series)<br/>⏱️ 15-20 min"]
+        END1[End]
+        
+        START1 --> DOTNET1
+        DOTNET1 --> FRONT1
+        FRONT1 --> DOCKER1
+        DOCKER1 --> END1
+    end
+    
+    subgraph "NEW CI Pipeline (Parallel - 10-15 min)"
+        START2[Start]
+        VERSION["Calculate Version<br/>⏱️ 30 sec"]
+        
+        subgraph "Phase 2: Build & Test (Parallel)"
+            AUTH["Auth Service"]
+            USER["User Service"]
+            PROD["Product Service"]
+            ORDER["Order Service"]
+            PAY["Payment Service"]
+            GATE["Gateway"]
+            FRONT2["Frontend"]
+            SONAR["SonarCloud"]
+        end
+        
+        subgraph "Phase 3: Docker (Parallel)"
+            DAUTH["Docker: Auth"]
+            DUSER["Docker: User"]
+            DPROD["Docker: Product"]
+            DORDER["Docker: Order"]
+            DPAY["Docker: Payment"]
+            DGATE["Docker: Gateway"]
+            DFRONT["Docker: Frontend"]
+        end
+        
+        SUMMARY["Pipeline Summary"]
+        END2[End]
+        
+        START2 --> VERSION
+        VERSION --> AUTH
+        VERSION --> USER
+        VERSION --> PROD
+        VERSION --> ORDER
+        VERSION --> PAY
+        VERSION --> GATE
+        VERSION --> FRONT2
+        VERSION --> SONAR
+        
+        AUTH --> DAUTH
+        USER --> DUSER
+        PROD --> DPROD
+        ORDER --> DORDER
+        PAY --> DPAY
+        GATE --> DGATE
+        FRONT2 --> DFRONT
+        
+        SONAR --> DAUTH
+        SONAR --> DUSER
+        SONAR --> DPROD
+        SONAR --> DORDER
+        SONAR --> DPAY
+        SONAR --> DGATE
+        SONAR --> DFRONT
+        
+        DAUTH --> SUMMARY
+        DUSER --> SUMMARY
+        DPROD --> SUMMARY
+        DORDER --> SUMMARY
+        DPAY --> SUMMARY
+        DGATE --> SUMMARY
+        DFRONT --> SUMMARY
+        
+        SUMMARY --> END2
+    end
+    
+    style START1 fill:#90EE90
+    style END1 fill:#FFB6C1
+    style DOTNET1 fill:#FFE4B5
+    style DOCKER1 fill:#FFE4B5
+    
+    style START2 fill:#90EE90
+    style END2 fill:#FFB6C1
+    style VERSION fill:#87CEEB
+    style AUTH fill:#98FB98
+    style USER fill:#98FB98
+    style PROD fill:#98FB98
+    style ORDER fill:#98FB98
+    style PAY fill:#98FB98
+    style GATE fill:#98FB98
+    style FRONT2 fill:#98FB98
+    style SONAR fill:#DDA0DD
+    style DAUTH fill:#87CEFA
+    style DUSER fill:#87CEFA
+    style DPROD fill:#87CEFA
+    style DORDER fill:#87CEFA
+    style DPAY fill:#87CEFA
+    style DGATE fill:#87CEFA
+    style DFRONT fill:#87CEFA
+    style SUMMARY fill:#F0E68C
