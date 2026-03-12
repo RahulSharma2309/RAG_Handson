@@ -143,15 +143,25 @@ When a user asks a question, this phase kicks in.
 
 ---
 
-## 7. What is "Augmentation"? (The A in RAG, Explained)
+## 7. What are R, A, and G in RAG? (Clearly Explained)
 
-This is the part most beginners get confused about.
+Great beginner question: most people understand only one part, then get confused.
 
-Let's say you searched your database and got back this raw result:
+### R = Retrieval (Find the right facts)
 
-> *"Revenue increased by 10%"*
+Retrieval means your system searches the knowledge base and pulls relevant chunks.
 
-That's retrieved — but it's incomplete. Augmentation means enriching it with more context:
+Example query:
+> *"How did Tesla perform this quarter?"*
+
+Possible retrieved chunk:
+> *"Revenue increased by 10%."*
+
+At this stage, we only fetched data. We have not yet improved it or written a final answer.
+
+### A = Augmentation (Enrich the retrieved facts)
+
+Augmentation means attaching useful context to the retrieved chunk so the LLM can answer better and more safely.
 
 ```
 Retrieved text:  "Revenue increased by 10%"
@@ -161,9 +171,27 @@ Page:            47
 Author:          Finance Team
 ```
 
-Now when the LLM gets this, it can say: *"According to Tesla's Q3 2024 Annual Report (page 47), revenue increased by 10%."*
+This step makes the answer traceable (you can verify where it came from) and reduces hallucination risk.
 
-**That's augmentation** — adding metadata to make the answer more precise, traceable, and trustworthy.
+### G = Generation (Write the final answer)
+
+Generation means the LLM now uses:
+- the original user query
+- the retrieved chunks
+- the augmented metadata/context
+
+to produce a clean final response in natural language.
+
+Example final answer:
+> *"According to Tesla's Q3 2024 Annual Report (page 47), revenue increased by 10%."*
+
+### One-line memory trick
+
+- **R**: Find  
+- **A**: Enrich  
+- **G**: Explain
+
+That full chain (find + enrich + explain) is why RAG gives more accurate and trustworthy answers than a plain LLM.
 
 ---
 
