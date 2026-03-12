@@ -98,6 +98,10 @@ This isn't just a technical concept — it's saving companies enormous amounts o
 
 RAG has three distinct phases. Think of them as three rooms in a pipeline that your data and questions travel through.
 
+### Visual Architecture
+
+![RAG Architecture](C:/Users/Lenovo/.cursor/projects/c-Users-Lenovo-source-repos-RAG-Handson/assets/c__Users_Lenovo_AppData_Roaming_Cursor_User_workspaceStorage_ccf3ef4e0443adcd14b2451459c81d08_images_image-340ee946-68ad-41a4-96e4-8084fe74f9dd.png)
+
 ```
 ┌─────────────────────┐    ┌──────────────────────┐    ┌──────────────────┐
 │  1. DOCUMENT        │    │  2. QUERY            │    │  3. GENERATION   │
