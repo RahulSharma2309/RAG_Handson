@@ -1,0 +1,33 @@
+[project]
+name = "rag-handson"
+version = "0.1.0"
+description = "RAG Hands-on Learning — Chunking Phase"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # ── Core LangChain ────────────────────────────────────────
+    "langchain>=0.3.0",               # text splitters, document objects
+    "langchain-community>=0.3.0",     # document loaders: PDF, CSV, JSON, DOCX
+
+    # ── Embeddings (needed for semantic chunking) ─────────────
+    "sentence-transformers>=3.0.0",   # free local embedding model
+    "langchain-huggingface>=0.1.0",   # LangChain wrapper for HuggingFace embeddings
+
+    # ── Token counting ────────────────────────────────────────
+    "tiktoken>=0.7.0",                # count tokens accurately (OpenAI tokenizer)
+
+    # ── Document loaders by source ────────────────────────────
+    "pymupdf>=1.24.0",                # fast PDF text extraction (PyMuPDFLoader)
+    "pypdf>=4.0.0",                   # alternative PDF loader (PyPDFLoader)
+    "docx2txt>=0.8",                  # Word document loader
+    "pandas>=2.2.0",                  # CSV and Excel processing
+    "openpyxl>=3.1.0",               # Excel file support (.xlsx)
+    "jq>=1.7.0",                      # JSON querying for JSONLoader
+
+    # ── Jupyter notebooks ─────────────────────────────────────
+    "ipykernel>=6.29.0",              # run notebooks inside VS Code
+    "ipywidgets>=8.1.0",              # notebook widgets
+
+    # ── Utilities ─────────────────────────────────────────────
+    "python-dotenv>=1.0.0",           # load .env files for API keys
+]

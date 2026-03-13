@@ -1,0 +1,22 @@
+# Python virtual environment - never commit this
+.venv/
+
+# Environment variables - NEVER commit real keys
+.env
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# uv lock file artifacts
+uv.lock
+
+# OS files
+.DS_Store
+Thumbs.db
