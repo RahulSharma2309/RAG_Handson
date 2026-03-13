@@ -13,44 +13,46 @@
 
 ---
 
-## Recommended Reading Order
+## Reading Order — Follow This Exactly
 
-### Foundation Track (Start here if new to chunking)
+The file numbers now match this order. Go from `01` to `13` in sequence.
 
-| # | File | What You'll Learn |
-|---|---|---|
-| 1 | `01-Chunking-Science-and-Foundations.md` | What chunking is, why it exists, context windows, embedding alignment, the quality chain |
-| 2 | `10-Pre-vs-Post-Chunking-and-Context-Windows.md` | Pre vs post chunking, LLM/embedding context windows, lost in the middle, context budget planning |
-| 3 | `03-All-Chunking-Methods-Complete-Guide.md` | Every chunking method explained: Fixed, Recursive, Document-based, Sliding Window, Semantic, LLM-based, Agentic, Late, Hierarchical, Adaptive, Code |
-
-### Strategy Track (Once you know the basics)
+### Foundation Track — Start Here
 
 | # | File | What You'll Learn |
 |---|---|---|
-| 4 | `02-Libraries-and-Loaders-by-Source.md` | Which loader/library to use for PDF, CSV, JSON, DOCX, SQL, Markdown |
-| 5 | `03-Chunking-Strategies-by-Dataset-Type.md` | Exact chunking strategy per data type: CSV, PDF, technical docs, functional docs, mixed corpus |
-| 6 | `04-Functional-Documents-Chunking-Guide.md` | Deep guide for policies, PRDs, user flows, process docs |
-| 7 | `05-Technical-Documents-Chunking-Guide.md` | Deep guide for architecture, APIs, runbooks, troubleshooting, code-heavy docs |
+| 01 | `01-Chunking-Science-and-Foundations.md` | What chunking is, why chunk boundaries decide answer quality, tokens explained with examples, context windows, the quality chain, four levers of chunk design with real examples |
+| 02 | `02-Pre-vs-Post-Chunking-and-Context-Windows.md` | Pre vs post chunking with real scenarios, embedding model context windows, LLM context windows, truncation walkthrough, context budget planning, why large-context LLMs still need chunking |
+| 03 | `03-All-Chunking-Methods-Complete-Guide.md` | All 11 methods with real document examples, before/after comparisons, working code — Fixed, Recursive, Document-based, Sliding Window, Semantic, LLM-based, Agentic, Late, Hierarchical, Adaptive, Code |
 
-### Advanced Track (Production readiness)
-
-| # | File | What You'll Learn |
-|---|---|---|
-| 8 | `09-Advanced-Chunking-Techniques.md` | Semantic chunking deep dive, Anthropic contextual retrieval, hierarchical, late chunking, chunk expansion, summary chunks |
-| 9 | `11-Chunk-Size-and-Parameter-Tuning-Guide.md` | How chunk size affects embeddings, overlap science, parameter tuning process, experiment template |
-| 10 | `06-Chunk-Quality-Checklist-and-Evaluation.md` | Evaluation framework, benchmark query sets, scoring, diagnostics map |
-| 11 | `12-Common-Mistakes-and-Production-Lessons.md` | Top 10 chunking mistakes, industry lessons, anti-pattern reference |
-
-### Implementation Track (Code and practice)
+### Strategy Track — Once You Know the Basics
 
 | # | File | What You'll Learn |
 |---|---|---|
-| 12 | `07-End-to-End-Chunking-Playbook.md` | Full SOP from raw docs to retrieval-ready chunks |
-| 13 | `08-Implementation-Patterns-and-Code-Templates.md` | All code patterns: text, PDF, CSV, JSON, DOCX, code files, profile router, metadata schema |
+| 04 | `04-Libraries-and-Loaders-by-Source.md` | Which loader/library to use for PDF, CSV, JSON, DOCX, SQL, Markdown |
+| 05 | `05-Chunking-Strategies-by-Dataset-Type.md` | Exact chunking strategy per data type: CSV, PDF, technical docs, functional docs, mixed corpus |
+| 06 | `06-Functional-Documents-Chunking-Guide.md` | Deep guide for policies, PRDs, user flows, process docs |
+| 07 | `07-Technical-Documents-Chunking-Guide.md` | Deep guide for architecture, APIs, runbooks, troubleshooting, code-heavy docs |
+
+### Advanced Track — Production Readiness
+
+| # | File | What You'll Learn |
+|---|---|---|
+| 08 | `08-Advanced-Chunking-Techniques.md` | Semantic chunking deep dive, Anthropic contextual retrieval, hierarchical, late chunking, chunk expansion, summary chunks |
+| 09 | `09-Chunk-Size-and-Parameter-Tuning-Guide.md` | How chunk size affects embeddings, overlap science, parameter tuning process, experiment template |
+| 10 | `10-Chunk-Quality-Checklist-and-Evaluation.md` | Evaluation framework, benchmark query sets, scoring, diagnostics map |
+| 11 | `11-Common-Mistakes-and-Production-Lessons.md` | Top 10 chunking mistakes, industry lessons, anti-pattern reference |
+
+### Implementation Track — Code and Practice
+
+| # | File | What You'll Learn |
+|---|---|---|
+| 12 | `12-End-to-End-Chunking-Playbook.md` | Full SOP from raw docs to retrieval-ready chunks |
+| 13 | `13-Implementation-Patterns-and-Code-Templates.md` | All code patterns: text, PDF, CSV, JSON, DOCX, code files, profile router, metadata schema |
 
 ---
 
-## Core Principles (The 5 Things You Must Know)
+## Core Principles
 
 ### 1. Chunking is not formatting — it is retrieval architecture
 Every chunk boundary is a retrieval decision. Wrong boundaries = wrong answers.
@@ -65,7 +67,7 @@ If chunking is broken, nothing downstream fully fixes it.
 A chunk should answer one focused question clearly without requiring surrounding context.
 
 ### 4. Profile-based, not global
-Different document types need different chunk strategies.  
+Different document types need different chunk strategies.
 One global chunk size is an anti-pattern.
 
 ### 5. Evaluate with real queries — not chunk count
@@ -77,16 +79,16 @@ Chunk count means nothing. Top-k retrieval accuracy on real user questions means
 
 ```
 What type of document?
-├── Source code                    → Code Chunking (file 03, Method 11)
-├── Markdown / HTML               → Document-Based (file 03, Method 3)
-├── Transcript / Conversation     → Sliding Window (file 03, Method 4)
-├── Large book / manual           → Hierarchical (file 09)
-├── Dense academic / legal text   → Semantic (file 09)
-├── Policy / business docs        → Recursive large + file 04
-├── Technical / architecture docs → Recursive medium + file 05
-├── CSV / tabular                 → Row + Summary pattern (file 08)
-├── JSON / API response           → JSONLoader + Recursive (file 08)
-└── Everything else               → Recursive (file 03, Method 2) as default
+├── Source code                    → 03 (Method 11: Code Chunking)
+├── Markdown / HTML               → 03 (Method 3: Document-Based)
+├── Transcript / Conversation     → 03 (Method 4: Sliding Window)
+├── Large book / manual           → 03 (Method 9: Hierarchical)
+├── Dense academic / legal text   → 03 (Method 5: Semantic)
+├── Policy / business docs        → 06
+├── Technical / architecture docs → 07
+├── CSV / tabular                 → 05 + 13
+├── JSON / API response           → 04 + 13
+└── Everything else               → 03 (Method 2: Recursive) as default
 ```
 
 ---
