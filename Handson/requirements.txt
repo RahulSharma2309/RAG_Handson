@@ -1,0 +1,35 @@
+# ── RAG Handson — Chunking Phase Dependencies ─────────────────────────────────
+#
+# HOW TO USE:
+#   With uv (recommended):  uv add -r requirements.txt
+#   With pip (fallback):    pip install -r requirements.txt
+#
+# NOTE: uv uses pyproject.toml as the primary source of truth.
+# This file is a human-readable reference and pip-compatible fallback.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Core LangChain ────────────────────────────────────────────────────────────
+langchain                  # text splitters: Recursive, Character, Token, Markdown
+langchain-community        # document loaders: PDF, CSV, JSON, DOCX, Directory
+
+# ── Embeddings (required for Semantic Chunking) ───────────────────────────────
+sentence-transformers      # free local embedding model (all-MiniLM-L6-v2)
+langchain-huggingface      # LangChain wrapper for HuggingFace embedding models
+
+# ── Token Counting ────────────────────────────────────────────────────────────
+tiktoken                   # count tokens to verify chunks are within model limits
+
+# ── Document Loaders by Source ────────────────────────────────────────────────
+pymupdf                    # fast PDF text extraction (PyMuPDFLoader) - recommended
+pypdf                      # alternative PDF loader (PyPDFLoader) - fallback
+docx2txt                   # Word document loader (.docx)
+pandas                     # CSV and Excel processing
+openpyxl                   # Excel format support (.xlsx) - required by pandas
+jq                         # JSON querying - required by JSONLoader
+
+# ── Jupyter Notebooks ─────────────────────────────────────────────────────────
+ipykernel                  # run notebooks in VS Code using project virtual env
+ipywidgets                 # notebook widgets (progress bars, interactive elements)
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv              # load API keys from .env file
