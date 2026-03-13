@@ -100,7 +100,7 @@ This shows exactly why fixed-size chunking, while useful as a starting point, ne
 ### Code
 
 ```python
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # Character-based (default in LangChain)
 splitter = RecursiveCharacterTextSplitter(
@@ -263,10 +263,122 @@ Clean boundaries. Complete thoughts. Self-contained chunks.
 
 ---
 
+### The important nuance: overlap is best-effort, not guaranteed
+
+This is the subtle point most explanations skip — and it causes real confusion when you observe your chunks and wonder why the overlap you configured did not actually appear.
+
+**The key principle:** Recursive chunking prioritizes semantic boundary preservation first. Overlap is applied only when the available building blocks allow it. If enforcing overlap would require breaking a paragraph boundary, recursive chunking typically chooses to preserve the boundary and skip the overlap.
+
+#### The exact scenario where overlap disappears
+
+Consider this setup:
+
+```
+3 paragraphs, each exactly 200 words
+chunk_size   = 200 words
+chunk_overlap = 50 words
+```
+
+**Stage 1 — Recursive splitting (what pieces does the text produce?)**
+
+The splitter tries `\n\n` first. Each paragraph is 200 words — exactly fits `chunk_size`. So:
+
+```
+Piece 1 = Paragraph 1   (200 words — fits ✅)
+Piece 2 = Paragraph 2   (200 words — fits ✅)
+Piece 3 = Paragraph 3   (200 words — fits ✅)
+```
+
+No piece exceeds `chunk_size`, so the splitter stops here. It does not recurse into sentences or words because there is no reason to — everything already fits.
+
+**Stage 2 — Merge into chunks (now apply overlap)**
+
+The splitter tries to build chunks from these pieces while respecting `chunk_overlap=50`.
+
+To create 50-word overlap between Chunk 1 and Chunk 2, it would need Chunk 2 to start with the last 50 words of Paragraph 1. But that means splitting Paragraph 1 — which Stage 1 already decided to keep intact.
+
+**What actually happens:**
+
+```
+Chunk 1 = Paragraph 1         (200 words)
+Chunk 2 = Paragraph 2         (200 words)
+Chunk 3 = Paragraph 3         (200 words)
+```
+
+Overlap = 0. Despite configuring `chunk_overlap=50`.
+
+**What does NOT happen (even though you asked for it):**
+
+```
+Chunk 1 = Paragraph 1
+Chunk 2 = last 50 words of Paragraph 1 + first 150 words of Paragraph 2
+Chunk 3 = last 50 words of Paragraph 2 + first 150 words of Paragraph 3
+```
+
+This would give you the exact overlap — but it breaks paragraph boundaries. Recursive chunking does not do this.
+
+---
+
+#### When overlap DOES happen naturally
+
+Overlap works well when the splitter was forced to recurse to a finer level — because then it has smaller building blocks available.
+
+Example:
+
+```
+Paragraph 1 = 600 words   (too large for chunk_size=200 → must recurse)
+
+After recursing to sentence level:
+  Sentence 1 = 50 words
+  Sentence 2 = 50 words
+  Sentence 3 = 50 words
+  Sentence 4 = 50 words
+  ... (12 sentences total)
+```
+
+Now the splitter has 50-word building blocks. Overlap of 50 words = exactly one sentence:
+
+```
+Chunk 1 = Sentence 1 + Sentence 2 + Sentence 3 + Sentence 4   (200 words)
+Chunk 2 = Sentence 4 + Sentence 5 + Sentence 6 + Sentence 7   (50-word overlap via Sentence 4)
+Chunk 3 = Sentence 7 + Sentence 8 + Sentence 9 + Sentence 10  (50-word overlap via Sentence 7)
+```
+
+✅ Overlap happens here because the recursion produced fine-grained enough pieces.
+
+---
+
+#### The practical rule
+
+| Situation | Overlap result |
+|---|---|
+| Paragraph fits exactly into `chunk_size` | Overlap likely 0 — paragraph stays intact |
+| Paragraph larger than `chunk_size` → recurses to sentences | Overlap happens at sentence granularity |
+| Very short sentences, many per paragraph | Overlap happens precisely as configured |
+| `chunk_overlap > chunk_size / 2` | Unpredictable — avoid this configuration |
+
+**The mental model:**
+
+> Recursive chunking says: "I will keep paragraphs whole. Only if I must, I will cut them into sentences or words. Overlap will happen naturally when the pieces are small enough — I will not break a boundary just to force it."
+
+**What this means for your configuration:**
+
+If you need reliable overlap (e.g., for a document where transitions between sections matter), set `chunk_size` smaller than your typical paragraph size. This forces the splitter to recurse to sentence level, where overlap becomes possible.
+
+```
+Typical paragraph = 300 words
+Set chunk_size = 200 → splitter must recurse → sentences become building blocks → overlap works
+Set chunk_size = 300 → paragraph fits exactly → no recursion → overlap may be 0
+```
+
+This is one of the reasons fixed/token-based chunking is sometimes preferred when strict overlap is required — it enforces exact overlap regardless of semantic boundaries, which recursive chunking deliberately avoids.
+
+---
+
 ### Code
 
 ```python
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
@@ -356,7 +468,7 @@ Notice what happened to the metadata — every chunk automatically knows its hea
 ### Code: Markdown
 
 ```python
-from langchain.text_splitter import MarkdownHeaderTextSplitter
+from langchain_text_splitters import MarkdownHeaderTextSplitter
 
 headers_to_split_on = [
     ("#",  "h1"),
@@ -410,7 +522,7 @@ Chunk 2:
 ### Code: HTML
 
 ```python
-from langchain.text_splitter import HTMLHeaderTextSplitter
+from langchain_text_splitters import HTMLHeaderTextSplitter
 
 headers_to_split_on = [
     ("h1", "h1"),
@@ -544,7 +656,7 @@ Now Chunk 3 contains both: the decision ("cut the dashboard") AND the reason ("n
 ### Code
 
 ```python
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # High overlap = sliding window behavior
 splitter = RecursiveCharacterTextSplitter(
@@ -1287,7 +1399,7 @@ Docstrings stay with their function — the embedding captures both the name and
 ### Code
 
 ```python
-from langchain.text_splitter import Language, RecursiveCharacterTextSplitter
+from langchain_text_splitters import Language, RecursiveCharacterTextSplitter
 
 # Python
 python_splitter = RecursiveCharacterTextSplitter.from_language(
