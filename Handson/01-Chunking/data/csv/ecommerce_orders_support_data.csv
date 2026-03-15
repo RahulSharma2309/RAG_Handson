@@ -1,0 +1,31 @@
+record_id,order_id,customer_segment,region,order_date,product_category,unit_price_usd,quantity,discount_pct,payment_method,delivery_days,returned,support_ticket_id,issue_type,resolution_hours,customer_satisfaction
+R001,O-10001,Enterprise,North America,2025-01-03,Electronics,329.99,2,10,Credit Card,3,No,T-5001,Delivery Delay,18,4
+R002,O-10002,SMB,Europe,2025-01-04,Home Appliances,149.50,1,0,PayPal,5,No,T-5002,Payment Failure,6,5
+R003,O-10003,Consumer,India,2025-01-04,Fashion,39.99,3,15,UPI,4,Yes,T-5003,Wrong Size,22,3
+R004,O-10004,Consumer,India,2025-01-05,Beauty,24.99,5,5,UPI,2,No,T-5004,Product Info Query,2,5
+R005,O-10005,Enterprise,North America,2025-01-06,Software,899.00,1,20,Bank Transfer,1,No,T-5005,License Activation,8,4
+R006,O-10006,SMB,Middle East,2025-01-06,Office Supplies,12.75,20,0,Credit Card,6,No,T-5006,Invoice Request,3,5
+R007,O-10007,Consumer,Europe,2025-01-07,Electronics,199.00,1,5,Debit Card,7,Yes,T-5007,Defective Item,36,2
+R008,O-10008,SMB,India,2025-01-08,Furniture,420.00,2,12,Net Banking,8,No,T-5008,Assembly Help,12,4
+R009,O-10009,Consumer,North America,2025-01-09,Sports,89.90,2,0,Credit Card,4,No,T-5009,Coupon Not Applied,4,4
+R010,O-10010,Enterprise,APAC,2025-01-10,Networking,1199.00,4,18,Bank Transfer,5,No,T-5010,Bulk Order ETA,10,5
+R011,O-10011,Consumer,India,2025-01-11,Books,15.99,6,25,UPI,3,No,T-5011,Address Change,1,5
+R012,O-10012,SMB,Europe,2025-01-11,Software,299.00,3,10,Credit Card,1,No,T-5012,Tax Invoice,5,4
+R013,O-10013,Consumer,Middle East,2025-01-12,Fashion,55.00,2,30,Debit Card,6,Yes,T-5013,Color Mismatch,20,3
+R014,O-10014,Enterprise,India,2025-01-13,Cloud Credits,2500.00,1,22,Bank Transfer,0,No,T-5014,Usage Clarification,7,5
+R015,O-10015,SMB,North America,2025-01-14,Office Supplies,8.99,50,5,Credit Card,4,No,T-5015,Missing Line Item,9,4
+R016,O-10016,Consumer,Europe,2025-01-14,Toys,27.49,4,10,PayPal,5,No,T-5016,Gift Wrap Request,2,5
+R017,O-10017,Enterprise,APAC,2025-01-15,Electronics,749.00,2,15,Bank Transfer,2,No,T-5017,Custom Billing Terms,14,4
+R018,O-10018,Consumer,India,2025-01-16,Home Appliances,210.00,1,8,UPI,6,Yes,T-5018,Installation Delay,26,3
+R019,O-10019,SMB,Middle East,2025-01-16,Furniture,510.00,1,10,Credit Card,9,No,T-5019,Delivery Slot Request,11,4
+R020,O-10020,Consumer,North America,2025-01-17,Beauty,18.49,7,5,Debit Card,3,No,T-5020,Allergy Concern,4,5
+R021,O-10021,Enterprise,Europe,2025-01-18,Software,1299.00,2,25,Bank Transfer,0,No,T-5021,SLA Clarification,16,4
+R022,O-10022,SMB,India,2025-01-18,Sports,110.00,3,12,UPI,5,No,T-5022,Warranty Query,6,5
+R023,O-10023,Consumer,APAC,2025-01-19,Electronics,259.00,1,0,Credit Card,4,Yes,T-5023,Battery Issue,30,2
+R024,O-10024,Enterprise,North America,2025-01-20,Networking,980.00,5,20,Bank Transfer,3,No,T-5024,Priority Shipping,9,5
+R025,O-10025,Consumer,India,2025-01-20,Books,22.00,2,5,UPI,2,No,T-5025,Duplicate Charge,5,4
+R026,O-10026,SMB,Europe,2025-01-21,Home Appliances,340.00,1,15,PayPal,7,No,T-5026,Extended Warranty,8,4
+R027,O-10027,Consumer,Middle East,2025-01-22,Fashion,72.99,3,18,Debit Card,6,Yes,T-5027,Return Pickup,24,3
+R028,O-10028,Enterprise,India,2025-01-22,Cloud Credits,3100.00,1,30,Bank Transfer,0,No,T-5028,Contract Amendment,20,4
+R029,O-10029,SMB,APAC,2025-01-23,Office Supplies,14.20,15,5,Credit Card,4,No,T-5029,PO Number Update,3,5
+R030,O-10030,Consumer,North America,2025-01-24,Toys,34.99,2,10,PayPal,5,No,T-5030,Late Refund,28,2

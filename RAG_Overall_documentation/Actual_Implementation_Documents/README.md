@@ -19,6 +19,8 @@ The `Handson/` folder and this `Actual_Implementation_Documents/` folder grow to
 | # | File | What It Covers |
 |---|---|---|
 | 01 | `01-Environment-Setup-Chunking-Phase.md` | uv setup, Python version, chunking-only libraries, folder structure |
+| 02 | `02-Notebook-01-Chunking-Handson-Method-Guide.md` | Technical walkthrough of core methods in `01_chunking_handson.ipynb` |
+| 03 | `03-Notebook-02-CSV-Chunking-Handson-Method-Guide.md` | Technical walkthrough of core methods in `02_csv_chunking_handson.ipynb` |
 
 ---
 
