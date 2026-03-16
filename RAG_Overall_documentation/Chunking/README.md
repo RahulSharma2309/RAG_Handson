@@ -49,6 +49,7 @@ The file numbers now match this order. Go from `01` to `13` in sequence.
 |---|---|---|
 | 12 | `12-End-to-End-Chunking-Playbook.md` | Full SOP from raw docs to retrieval-ready chunks |
 | 13 | `13-Implementation-Patterns-and-Code-Templates.md` | All code patterns: text, PDF, CSV, JSON, DOCX, code files, profile router, metadata schema |
+| 14 | `14-PDF-Chunking-Deep-Dive.md` | Full deep-dive for PDF chunking: OCR, tables, diagrams, extraction strategy, metadata, evaluation |
 
 ---
 

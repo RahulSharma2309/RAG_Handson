@@ -321,6 +321,12 @@ splitter     : RecursiveCharacterTextSplitter with paragraph-first separators
 cleaning     : always required before splitting
 ```
 
+### Want the full deep-dive for PDF?
+
+If you want full-depth PDF guidance (OCR paths, table strategy, diagram handling, extraction-method decision tree, production anti-patterns, and evaluation checklist), read:
+
+`14-PDF-Chunking-Deep-Dive.md`
+
 ---
 
 ## Dataset Type 3 — Technical Documents (Architecture, API, Runbooks)
