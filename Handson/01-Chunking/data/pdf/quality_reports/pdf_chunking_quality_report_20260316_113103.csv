@@ -1,0 +1,10 @@
+source_file,file_name,profile,total_pages,nonempty_pages,avg_cleaned_chars_nonempty,max_cleaned_chars_page,ocr_needed,chunks_created,avg_chunk_tokens,max_chunk_tokens
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\AI Interview PDFs\HyreSnap-Adesh Katiyar.pdf,HyreSnap-Adesh Katiyar.pdf,ai_interview,8,8,716.1,962,False,12,108.8,208
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\AI Interview PDFs\HyreSnap-Amarnath Sm.pdf,HyreSnap-Amarnath Sm.pdf,ai_interview,6,6,1233.8,1905,False,12,129.7,184
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\AI Interview PDFs\HyreSnap-Prosenjit Dubey.pdf,HyreSnap-Prosenjit Dubey.pdf,ai_interview,6,6,581.5,836,False,6,127.5,197
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\AI Interview PDFs\HyreSnap-Puneet Bhadouriya.pdf,HyreSnap-Puneet Bhadouriya.pdf,ai_interview,9,9,787.7,1091,False,16,93.8,167
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\AI Interview PDFs\HyreSnap-Rachit Srivastava.pdf,HyreSnap-Rachit Srivastava.pdf,ai_interview,7,7,826.1,1194,False,12,103.1,167
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\AI Interview PDFs\HyreSnap-Sumit Singh Deo.pdf,HyreSnap-Sumit Singh Deo.pdf,ai_interview,8,8,818.5,1203,False,12,118.1,174
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\Different Types Example\1-2RAG.pdf,1-2RAG.pdf,mixed_pdf,3,0,0.0,0,True,0,0.0,0
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\Different Types Example\BOOKING_INVOICE_M06AI26I04712100.pdf,BOOKING_INVOICE_M06AI26I04712100.pdf,mixed_pdf,1,1,1735.0,1735,False,3,187.0,277
+c:\Users\Lenovo\source\repos\RAG_Handson\Documents\PDF Dummy Documents\Different Types Example\RAHUL_SHARMA_Lead.pdf,RAHUL_SHARMA_Lead.pdf,mixed_pdf,2,2,1959.5,2517,False,6,143.3,207

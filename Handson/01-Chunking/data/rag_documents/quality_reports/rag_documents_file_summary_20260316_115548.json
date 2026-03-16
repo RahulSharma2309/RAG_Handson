@@ -1,0 +1,116 @@
+[
+  {
+    "source":"Documents\\RAG documents\\00-Start-Here\\README.md",
+    "chunks":7,
+    "max_tokens":256,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-environment-setup-windows-uv.md",
+    "chunks":11,
+    "max_tokens":90,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-Foundations\\chunking-and-embedding-in-layman-terms.md",
+    "chunks":11,
+    "max_tokens":254,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-Foundations\\prompt-engineering-vs-finetuning-vs-rag.md",
+    "chunks":25,
+    "max_tokens":212,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-Foundations\\tools-and-options-at-every-step.md",
+    "chunks":34,
+    "max_tokens":289,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-Foundations\\vector-store-vs-vector-database.md",
+    "chunks":19,
+    "max_tokens":277,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-Foundations\\what-is-rag-complete-beginners-guide.md",
+    "chunks":29,
+    "max_tokens":209,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\01-Foundations\\why-rag-matters-and-augmentation-explained.md",
+    "chunks":17,
+    "max_tokens":258,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\02-files-explained.md",
+    "chunks":5,
+    "max_tokens":200,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\02-Implementation-Guide\\faiss-vector-store-deep-dive.md",
+    "chunks":22,
+    "max_tokens":248,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\02-Implementation-Guide\\files-created-and-why-they-matter.md",
+    "chunks":8,
+    "max_tokens":188,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\02-Implementation-Guide\\rag-answer-generation-and-ui.md",
+    "chunks":17,
+    "max_tokens":273,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\02-Implementation-Guide\\vector-store-chromadb-hands-on.md",
+    "chunks":13,
+    "max_tokens":247,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\03-jupyter-kernel-troubleshooting.md",
+    "chunks":10,
+    "max_tokens":94,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\03-Optimization\\how-to-optimize-chunking-and-embeddings.md",
+    "chunks":10,
+    "max_tokens":64,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\04-chunking-playground-workflow.md",
+    "chunks":5,
+    "max_tokens":85,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\04-Roadmap\\rag-hands-on-roadmap.md",
+    "chunks":25,
+    "max_tokens":102,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\CHUNKING_STRATEGY.md",
+    "chunks":14,
+    "max_tokens":108,
+    "note":"ok"
+  },
+  {
+    "source":"Documents\\RAG documents\\README.md",
+    "chunks":10,
+    "max_tokens":289,
+    "note":"ok"
+  }
+]

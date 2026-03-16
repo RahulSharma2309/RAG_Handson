@@ -1,0 +1,20 @@
+source,chunks,max_tokens,note
+Documents\RAG documents\00-Start-Here\README.md,7,256,ok
+Documents\RAG documents\01-environment-setup-windows-uv.md,11,90,ok
+Documents\RAG documents\01-Foundations\chunking-and-embedding-in-layman-terms.md,11,254,ok
+Documents\RAG documents\01-Foundations\prompt-engineering-vs-finetuning-vs-rag.md,25,212,ok
+Documents\RAG documents\01-Foundations\tools-and-options-at-every-step.md,34,289,ok
+Documents\RAG documents\01-Foundations\vector-store-vs-vector-database.md,19,277,ok
+Documents\RAG documents\01-Foundations\what-is-rag-complete-beginners-guide.md,29,209,ok
+Documents\RAG documents\01-Foundations\why-rag-matters-and-augmentation-explained.md,17,258,ok
+Documents\RAG documents\02-files-explained.md,5,200,ok
+Documents\RAG documents\02-Implementation-Guide\faiss-vector-store-deep-dive.md,22,248,ok
+Documents\RAG documents\02-Implementation-Guide\files-created-and-why-they-matter.md,8,188,ok
+Documents\RAG documents\02-Implementation-Guide\rag-answer-generation-and-ui.md,17,273,ok
+Documents\RAG documents\02-Implementation-Guide\vector-store-chromadb-hands-on.md,13,247,ok
+Documents\RAG documents\03-jupyter-kernel-troubleshooting.md,10,94,ok
+Documents\RAG documents\03-Optimization\how-to-optimize-chunking-and-embeddings.md,10,64,ok
+Documents\RAG documents\04-chunking-playground-workflow.md,5,85,ok
+Documents\RAG documents\04-Roadmap\rag-hands-on-roadmap.md,25,102,ok
+Documents\RAG documents\CHUNKING_STRATEGY.md,14,108,ok
+Documents\RAG documents\README.md,10,289,ok

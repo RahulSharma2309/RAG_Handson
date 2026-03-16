@@ -1,0 +1,31 @@
+employee_id,employee_name,department,role,location,employment_type,start_date,salary_usd,performance_rating,last_promotion_date,manager_id,primary_skills
+E001,Ananya Mehta,Engineering,Senior Backend Engineer,Bengaluru,Full-Time,2019-06-10,148000,4.7,2024-04-15,M101,Python;FastAPI;PostgreSQL;AWS
+E002,Rohit Verma,Engineering,Platform Engineer,Hyderabad,Full-Time,2020-02-24,132000,4.3,2023-12-20,M101,Kubernetes;Terraform;Linux;Go
+E003,Sneha Iyer,Product,Product Manager,Mumbai,Full-Time,2018-09-03,141000,4.5,2024-01-10,M201,Roadmapping;Analytics;Stakeholder Management
+E004,Karan Bhatia,Design,UX Designer,Delhi,Full-Time,2021-07-19,98000,4.1,2023-11-02,M301,Figma;User Research;Design Systems
+E005,Meera Nair,Engineering,Data Engineer,Pune,Full-Time,2019-11-11,136000,4.6,2024-02-28,M102,Spark;Airflow;Python;Data Modeling
+E006,Arjun Rao,Support,Customer Success Lead,Chennai,Full-Time,2017-05-08,104000,4.4,2023-08-16,M401,SLA Management;Escalation Handling;CRM
+E007,Priya Kapoor,Engineering,QA Automation Engineer,Bengaluru,Full-Time,2022-03-14,92000,4.0,2024-05-09,M103,Selenium;Pytest;CI-CD
+E008,Vikram Singh,Sales,Account Executive,Gurugram,Full-Time,2020-10-05,118000,4.2,2023-10-17,M501,Enterprise Sales;Negotiation;CRM
+E009,Nisha Patil,Finance,Financial Analyst,Mumbai,Full-Time,2021-01-25,97000,4.1,2024-03-04,M601,Forecasting;Excel;Variance Analysis
+E010,Aditya Jain,Engineering,Frontend Engineer,Remote,Full-Time,2023-02-06,89000,3.9,2025-01-12,M101,React;TypeScript;Accessibility
+E011,Kavya Reddy,People Ops,HR Business Partner,Hyderabad,Full-Time,2018-12-17,109000,4.5,2024-06-21,M701,Talent Development;Policy Design;HRIS
+E012,Siddharth Bose,Engineering,ML Engineer,Bengaluru,Full-Time,2021-09-27,152000,4.8,2024-09-30,M102,PyTorch;MLOps;Feature Stores
+E013,Neha Das,Marketing,Content Strategist,Kolkata,Full-Time,2022-05-16,86000,3.8,2024-07-11,M801,SEO;Content Marketing;Analytics
+E014,Rahul Khanna,Engineering,SRE,Remote,Full-Time,2019-03-18,144000,4.6,2024-10-05,M103,Observability;Incident Response;Kubernetes
+E015,Simran Gill,Legal,Compliance Officer,Delhi,Full-Time,2020-08-31,113000,4.3,2023-09-14,M901,Regulatory Compliance;Contract Review
+E016,Manoj Kulkarni,Engineering,Backend Engineer,Pune,Contract,2024-01-08,78000,3.7,2024-01-08,M101,Node.js;MongoDB;REST APIs
+E017,Asha Menon,Product,Associate Product Manager,Remote,Full-Time,2023-06-12,82000,4.0,2025-02-03,M201,User Stories;A-B Testing;SQL
+E018,Ritesh Gupta,Sales,Sales Development Rep,Gurugram,Full-Time,2022-11-21,74000,3.9,2024-08-19,M501,Prospecting;Cold Outreach;CRM
+E019,Pooja Arora,Support,Technical Support Engineer,Chennai,Full-Time,2021-04-26,81000,4.2,2024-11-01,M401,API Debugging;Log Analysis;Customer Communication
+E020,Yash Malhotra,Engineering,Data Scientist,Bengaluru,Full-Time,2020-06-29,139000,4.4,2024-12-12,M102,Forecasting;Python;Experimentation
+E021,Divya Shah,Design,Product Designer,Remote,Full-Time,2019-10-07,112000,4.3,2024-03-25,M301,Interaction Design;Prototyping;Design Ops
+E022,Hari Prasad,Operations,Program Manager,Hyderabad,Full-Time,2018-04-02,126000,4.5,2023-12-01,M1001,Cross-Functional Planning;Risk Management
+E023,Tanvi Sinha,Marketing,Growth Marketer,Mumbai,Full-Time,2021-12-13,93000,4.1,2024-09-09,M801,Performance Marketing;Attribution;Lifecycle
+E024,Amit Joshi,Engineering,Security Engineer,Pune,Full-Time,2019-08-19,146000,4.7,2024-05-27,M103,AppSec;Threat Modeling;SIEM
+E025,Shreya Banerjee,People Ops,Recruiter,Kolkata,Full-Time,2022-07-04,76000,3.8,2024-10-22,M701,Sourcing;Interview Coordination;Employer Branding
+E026,Nakul Agarwal,Finance,Senior Accountant,Delhi,Full-Time,2017-11-06,99000,4.2,2023-07-18,M601,GL Management;Audit Support;Taxation
+E027,Farah Ali,Engineering,Mobile Engineer,Remote,Full-Time,2020-01-20,121000,4.1,2024-06-14,M101,Flutter;Kotlin;CI-CD
+E028,Omkar Deshpande,Support,Implementation Specialist,Pune,Contract,2023-09-11,69000,3.6,2023-09-11,M401,Onboarding;Data Migration;API Integrations
+E029,Ria Mukherjee,Product,Product Analyst,Bengaluru,Full-Time,2021-02-15,95000,4.0,2024-02-19,M201,Product Metrics;SQL;Dashboarding
+E030,Kabir Anand,Sales,Customer Success Manager,Remote,Full-Time,2019-05-27,122000,4.4,2024-04-03,M501,Renewals;Upsell;Executive Communication

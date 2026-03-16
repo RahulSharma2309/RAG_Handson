@@ -21,6 +21,11 @@ The `Handson/` folder and this `Actual_Implementation_Documents/` folder grow to
 | 01 | `01-Environment-Setup-Chunking-Phase.md` | uv setup, Python version, chunking-only libraries, folder structure |
 | 02 | `02-Notebook-01-Chunking-Handson-Method-Guide.md` | Technical walkthrough of core methods in `01_chunking_handson.ipynb` |
 | 03 | `03-Notebook-02-CSV-Chunking-Handson-Method-Guide.md` | Technical walkthrough of core methods in `02_csv_chunking_handson.ipynb` |
+| 04 | `04-Notebook-03-PDF-Chunking-Handson-Method-Guide.md` | Technical walkthrough of profile-based PDF chunking in `03_pdf_chunking_handson.ipynb` |
+| 06 | `06-Notebook-05-ML-Notes-Chunking-Method-Guide.md` | Dedicated chunking flow for `Documents/ML-Notes` |
+| 07 | `07-Notebook-06-Fresh-Harvest-Chunking-Method-Guide.md` | Dedicated chunking flow for `Documents/Fresh_Harvest_Documents` |
+| 08 | `08-Notebook-07-RAG-Documents-Chunking-Method-Guide.md` | Dedicated chunking flow for `Documents/RAG documents` |
+| 09 | `09-Notebook-08-SQL-Data-Chunking-Method-Guide.md` | Dedicated chunking flow for `Documents/SQL Data` |
 
 ---
 
